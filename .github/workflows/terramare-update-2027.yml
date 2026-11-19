@@ -28,3 +28,5 @@ jobs:
           git diff --cached --quiet || (git commit -m "Publish TerraMare 2027 seasonal rental website" && git push)
 
 # Second execution after correcting the content audit
+
+# Third run: remove all remaining standalone spa references
