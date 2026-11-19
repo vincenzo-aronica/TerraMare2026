@@ -92,5 +92,5 @@ for node in list(s.find_all(string=True)):
 p.write_text("<!DOCTYPE html>\n"+str(s.html),encoding="utf-8")
 text=s.get_text(" ",strip=True)
 for bad in ("spa","vasca","piscina","2026","€"):
- if re.search(r"\\b"+re.escape(bad)+r"\\b",text,re.I):raise SystemExit("Still visible: "+bad)
+ if re.search(r"\b"+re.escape(bad)+r"\b",text,re.I):raise SystemExit("Still visible: "+bad)
 print("TerraMare 2027 updated:",len(text),"visible characters")
