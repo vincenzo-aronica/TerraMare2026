@@ -87,8 +87,8 @@ for script in s.find_all("script"):
 for node in list(s.find_all(string=True)):
  if node.parent and node.parent.name in ("script","style"):continue
  v=str(node)
- v=re.sub(r"\\bspa\\b","giardino",v,flags=re.I)
- v=re.sub(r"\\b(?:vasca|idromassaggio|piscina)\\b","giardino",v,flags=re.I)
+ v=re.sub(r"\bspa\b","giardino",v,flags=re.I)
+ v=re.sub(r"\b(?:vasca|idromassaggio|piscina)\b","giardino",v,flags=re.I)
  if "2026" in v:v=v.replace("2026","2027")
  if node.parent and v!=str(node):node.replace_with(v)
 p.write_text("<!DOCTYPE html>\n"+str(s.html),encoding="utf-8")
