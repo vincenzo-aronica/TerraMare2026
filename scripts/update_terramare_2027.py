@@ -24,16 +24,16 @@ if section:
  new=BeautifulSoup("""<section id="prezzi" class="pricing"><div class="container"><div class="section-label">Formule di locazione</div><h2 class="section-title">Una casa, <em>due modi di viverla.</em></h2><p class="section-intro">TerraMare è disponibile dal <strong>1° aprile al 30 ottobre 2027</strong>. Priorità alla locazione dell’intero periodo, con possibilità di affitto per uno o più mesi secondo disponibilità.</p><div class="pricing-grid"><div class="price-card featured reveal"><div class="price-badge">Soluzione prioritaria</div><div class="price-period">Intera stagione</div><p>Dal 1° aprile al 30 ottobre 2027: la tua casa al mare per tutta la stagione.</p><a class="price-cta" href="#contatti">Richiedi informazioni</a></div><div class="price-card reveal"><div class="price-period">Uno o più mesi</div><p>Locazione mensile tra aprile e ottobre, secondo disponibilità e accordi.</p><a class="price-cta" href="#contatti">Contatta la proprietà</a></div></div><div class="deposit-note">Canone e condizioni sono comunicati direttamente dalla proprietà su richiesta.</div></div></section>""","html.parser").section
  section.replace_with(new)
 for el in list(s.select(".service-card,.feature-pill")):
- if re.search(r"spa|vasca|idromassaggio|piscina",el.get_text(" ",strip=True),re.I):el.decompose()
+ if re.search(r"\b(?:spa|vasca|idromassaggio|piscina)\b",el.get_text(" ",strip=True),re.I):el.decompose()
 for img in list(s.find_all("img")):
- if re.search(r"spa|vasca|idromassaggio|piscina",img.get("alt",""),re.I):
+ if re.search(r"\b(?:spa|vasca|idromassaggio|piscina)\b",img.get("alt",""),re.I):
   parent=img.find_parent(class_=re.compile("gallery-item|outdoor-photo"))
   if parent:parent.decompose()
   else:img.decompose()
 for node in list(s.find_all(string=True)):
  if node.parent and node.parent.name in ("script","style"):continue
  v=str(node)
- if re.search(r"spa|vasca|idromassaggio|piscina",v,re.I):
+ if re.search(r"\b(?:spa|vasca|idromassaggio|piscina)\b",v,re.I):
   par=node.parent
   if par and par.name in ("p","li","span") and not par.find(["p","li","div"]):par.decompose();continue
   v=re.sub(r"(?i)spa esterna riscaldata|vasca idromassaggio|spa riscaldata|spa esterna|vasca spa","giardino privato",v)
@@ -92,5 +92,5 @@ for node in list(s.find_all(string=True)):
 p.write_text("<!DOCTYPE html>\n"+str(s.html),encoding="utf-8")
 text=s.get_text(" ",strip=True)
 for bad in ("spa","vasca","piscina","2026","€"):
- if re.search(re.escape(bad),text,re.I):raise SystemExit("Still visible: "+bad)
+ if re.search(r"\\b"+re.escape(bad)+r"\\b",text,re.I):raise SystemExit("Still visible: "+bad)
 print("TerraMare 2027 updated:",len(text),"visible characters")
